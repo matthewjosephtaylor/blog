@@ -1,19 +1,20 @@
 theme: minima
 timezone: CST6CDT
 strict_front_matter: true
-permalink: /:path/
+permalink: :path/
+baseurl: /blog
 disqus:
   shortname: matthewjosephtaylor
 collections: 
   blog:
     output: true
-    permalink: /:collection/:path/
+    permalink: :collection/:path/
   old_blogger:
     output: true
-    permalink: /:collection/:path/
+    permalink: :collection/:path/
   old_tumblr:
     output: true
-    permalink: /:collection/:path/
+    permalink: :collection/:path/
 
 kramdown:
   auto_ids:       true
