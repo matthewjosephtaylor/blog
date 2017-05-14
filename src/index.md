@@ -10,15 +10,15 @@ published: true
 Let's see what this looks like (test 123)asdfasdf
 
   {% for post in site.blog %}
-- [{{ post.title }}]({{ post.url }})
+- [{{ post.title }}]({{ site.baseurl }}{{ post.url }})
   {% endfor %}
 old blogger...
   {% for post in site.old_blogger %}
-- [{{ post.title }}]({{ post.url }})
+- [{{ post.title }}]({{ site.baseurl }}{{ post.url }})
   {% endfor %}
 old tumblr...
   {% for post in site.old_tumblr %}
-- [{{ post.title }}]({{ post.url }})
+- [{{ post.title }}]({{ site.baseurl }}{{ post.url }})
   {% endfor %}
 
 after posts
