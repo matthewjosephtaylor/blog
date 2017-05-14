@@ -1,0 +1,251 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM No Simple Service Locator Standard/Framework for Java?</title>
+  <meta name="description" content="I want to do a simple, but critical thing in Java and I’m not having a great deal of luck in finding examples of other people doing this.">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/old_tumblr/2015-10-25-no-simple-service-locator-standardframework-for/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">No Simple Service Locator Standard/Framework for Java?</h1>
+    <p class="post-meta">
+      <time datetime="2015-10-25T09:45:36-05:00" itemprop="datePublished">
+        
+        Oct 25, 2015
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>I want to do a simple, but critical thing in Java and I’m not having a great deal of luck in finding examples of other people doing this.</p>
+
+<p>What I want is a simple and hopefully standard pattern/framework/library that will let me easily locate Service Objects that I don’t plan on exposing outside of a program.</p>
+
+<p>When people think SOA (Service Oriented Architecture) they immediately start thinking about networks and things like REST and WSDLs and SOAP. However, it seems that in the rush to expose services not much has been written about best practices or standards for services that are internal to a program and are explicitely not exposed.</p>
+
+<p>Non-network exposed services are important too!</p>
+
+<p>Martin Fowler wrote a nice article in 2004 explaining the various pros and cons of using service locators vs dependancy injection. This guy wrote an updated article in 2012 that is based on Fowler’s article and gives more-or-less the state of play in the Java world today.</p>
+
+<p>TLDR; Spring came along and dependancy injection sort of won the hearts and minds battle.</p>
+
+<p>Fowler’s words on the critical difference between Dependancy Injection and Service Locators:</p>
+
+<p>The important difference between the two patterns is about how that implementation is provided to the application class. With service locator the application class asks for it explicitly by a message to the locator. With injection there is no explicit request, the service appears in the application class - hence the inversion of control.</p>
+
+<p>A problem I have with DI (especially the annotation driven form of DI) is that it makes debugging more of a pain, that it puts a bit of magic between the developer and the runtime code.</p>
+
+<p>The developer is also forced to use, understand, and cofigure a somewhat conceptually heavy framework like Spring or Guice before they can even really start coding.</p>
+
+<p>I haven’t played with Guice, but I know that Spring slows down program start as it scans for annotations and does its DI autowire magic. This is bad as it slows down the flow of the edit/compile/run devlopment loop.</p>
+
+<p>But the main problem for me with both frameworks is lack of control I as a developer have. As a developer I want to know exactly what is happening in the lifecycle of an object, and how one object comes to know about another object. And I want to be able to discover this information by reading the code, not by reading documentation on the framework on how it conceptually works.</p>
+
+<p>Anyway enough ranting on why I don’t particluarly like DI.</p>
+
+<p>Fowler’s words on why one perhaps wouldn’t want to use a service locator:</p>
+
+<p>The key difference is that with a Service Locator every user of a service has a dependency to the locator. The locator can hide dependencies to other implementations, but you do need to see the locator. So the decision between locator and injector depends on whether that dependency is a problem.</p>
+
+<p>To my mind this isn’t actually a ‘real’ problem. This problem is caused by a lack of a standard. There should be a JSR concerning service location (and no JNDI doesn’t count). There needs to be something like JSR 330 but for Service Locators. Maybe it exists and google is failing me but if it exists I haven’t found it.</p>
+
+<p>But that is almost beside the point.</p>
+
+<p>The real real problem with both Dependancy Injection and Service Location is how to assemble stuff. How does Object A know about Service B, and how does Service B get instantiated?</p>
+
+<p>With DI and JSR 330 assembly is left to the magic of the framework.</p>
+
+<p>That is a huge failing as that is the important part.</p>
+
+<p>Ah, but I hear you say what about OSGi?</p>
+
+<p>Perhaps maybe that is the ultimate answer, but OSGi is really more about modular components than Service Location. It also comes with even more conceptual overhead and a runtime setup. If there was a standard for Service Location in java then this would probably be it. But it is a bigger monster than I want and need to have to deal with.</p>
+
+<p>There is also Project Jigsaw</p>
+
+<p>This has the distince disadvantage of not existing yet. From what I’m reading about it, it is Oracle’s attempt to bring OSGi into the mainstream and is mostly concerned with building modules not services.</p>
+
+<p>Alas, there just doesn’t seem to be anything in existence that does what I want.  So I’ve gone to the trouble to write my own. I don’t like this. This is the sort of thing one uses someone else’s framework or library for.  But in 2015, after 20 years of development it seems that there is not a standard mechanism for doing this very basic, very simple thing.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public class ServiceLocator {
+
+    @Override
+    protected Map, Object&gt; initialValue() {
+
+
+
+    @SuppressWarnings("unchecked")
+    final T object = (T) services.get(clazz);
+    if (object == null) {
+        throw new RuntimeException("Unable to locate service for class: " + clazz.getCanonicalName());
+    }
+    return object;
+
+    @SuppressWarnings("unchecked")
+    final T object = (T) threadLocalServices.get().get(clazz);
+    if (object == null) {
+        throw new RuntimeException("Unable to locate service for class: " + clazz.getCanonicalName());
+    }
+    return object;
+
+    services.put(clazz, serviceImpl);
+
+    services.remove(clazz);
+
+    threadLocalServices.get().put(clazz, serviceImpl);
+
+    threadLocalServices.get().remove(clazz);
+
+}
+</code></pre>
+</div>
+
+<p>I don’t claim this is perfect, and it doesn’t solve the hard part of assembling the services.  But it does allow one to write code like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@Produces(MediaType.APPLICATION_JSON)
+public Iterable listAccounts() {
+    return ServiceLocator.get(AccountService.class).getAccounts();
+</code></pre>
+</div>
+
+<p>Addendum</p>
+
+<p>After a bit more research and stumbling around I discovered to my amazement that there is a native java mechanism for Service Location: ‘‘ServiceLoader’ but nobody uses it (and I don’t blame them).</p>
+
+<p>Here is an IBM develperworks article appropriately titled ‘‘5 things you didn’t know about … everyday Java tools’ that explains it a bit.</p>
+
+<p>Long story short It is pretty close to what I want, but it’s clunky and uses files in META-INF to grab implementation classes.</p>
+
+<p>Then I discovered that netbeans has a ‘‘Lookup’ utility class that is a wrapper around ServiceLoader that people point to as a possibility but it seems to have the same issues that ServiceLoader does.</p>
+
+<p>In the end like I said before it is the assembly part that is the hard part.  I don’t consider putting specially named text files with class names in them to be acceptable.</p>
+
+<p>Wiring and implementation loading IMHO shouldn’t be a configuration detail (either via text/xml files or annotation scanning). That needs to be a Java compiler screams at you if you get it wrong sort of thing, and so needs to live in Java code land. Text/XML config files for this sort of thing was an experiment that was tried, and failed miserably, and now we’ve learned the lesson and need to move on.</p>
+
+<p>If I come up with what I think of as a decent Service Assembly Pattern I’ll post it. For now I just have a class that looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public class ServiceAssembler {
+
+    ServiceLocator.register(AccountService.class, new AccountServiceImpl());
+}
+</code></pre>
+</div>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/old_tumblr/2015-10-25-no-simple-service-locator-standardframework-for/';
+      this.page.identifier = '/old_tumblr/2015-10-25-no-simple-service-locator-standardframework-for/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>

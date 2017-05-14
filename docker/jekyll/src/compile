@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+main () {
+	echo "args: $@" 1>&2
+	mkdir -p /src
+	mkdir -p /target
+	tar -xvf - -C /src 1>&2
+	(
+		export JEKYLL_ENV=production
+		cd /src
+		jekyll $@ --config=/opt/jekyll_compiler/config/_config.yml -d /target 1>&2 && \
+		tar -cf - -C /target .
+
+	)
+}
+
+main $@

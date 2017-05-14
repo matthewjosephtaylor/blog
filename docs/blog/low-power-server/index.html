@@ -1,0 +1,250 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM My Own Private Low Power Server(s)</title>
+  <meta name="description" content="It Is 2017">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/blog/low-power-server/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">My Own Private Low Power Server(s)</h1>
+    <p class="post-meta">
+      <time datetime="2017-04-16T19:01:42-05:00" itemprop="datePublished">
+        
+        Apr 16, 2017
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h1 id="it-is-2017">It Is 2017</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Moore%27s_law">Moore’s Law</a> is both dead and alive.</p>
+
+<p>It is dead because personal computers are not getting any faster processors. We’ve reached the physics wall with regards to how fast we can make a single processor go without melting it.</p>
+
+<p><img src="https://web.archive.org/web/20170417003750/https://www.extremetech.com/wp-content/uploads/2012/02/CPU-Scaling.jpg" alt="CPU's not getting faster" /></p>
+
+<p>It is alive because the transistor counts are continuing to rise nicely.</p>
+
+<p>So what does this mean?</p>
+
+<p>It means that instead of going tall (one big server/application to run everything) we are all being encouraged to go wide (many little services doing simpler and simper tasks).</p>
+
+<p>It also means things like <a href="https://en.wikipedia.org/wiki/Functional_programming">functional programming</a> will eventually rule the world (but that is a story for another time).</p>
+
+<p>I have to ask how does this trend effect me personally with regards to my consumption of computing resources?</p>
+
+<p>On the home front, I’m close to the point where I no longer wish to build and maintain my own hardware. There are a plethora of services now that allow one to quickly, easily, and cheaply get their hands on as much or little computing power as they could desire.</p>
+
+<p>Yet I don’t think we are quite at the point where I can entirely rely on ‘The Cloud’ for all my computing needs.</p>
+<ul>
+  <li>It’s not quite fast and cheap enough (it’s darn close though). I have and will continue to take more and more advantage of online cloud service providers where it makes sense to do so, but for high-bandwidth network traffic in particular it just doesn’t seem to add up.</li>
+  <li>I have security concerns
+    <ul>
+      <li>Not fast and easy as it needs to be to synchronize storage and compute fall-over between providers. I don’t want a single companies death to lead to my inability to access my data and services.</li>
+      <li>Privacy concerns (the real sticking point). I encrypt my data, all of it. I don’t want an enterprising hacker, shadowy organization, or random person, to have access to my private thoughts. I’m at a point in my life where the computing resources I use have become an <a href="https://en.wikipedia.org/wiki/Exocortex">extension of my brain</a>, and so just like I take my mental privacy seriously, I take my personal computing privacy seriously. 
+  Encryption isn’t a perfect solution due to the fact that the computer can only deal with the information in clear text.  So there is always in running memory a key that can unlock everything. Running encryption on a cloud-farm server pre-supposes absolute trust of the service provider, since it would be trivial for them to gain access to that key (or a hacker, who hacked the service provider, etc…). The only reason I trust it for my home server is necessity + my ability to control the physical hardware. Perhaps a breakthrough in <a href="https://en.wikipedia.org/wiki/Homomorphic_encryption">Homomorphic Encryption</a> will solve this personal dilemma, but unfortunately it isn’t here yet.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>There is also an undeniable joy for me in building. I like making things. :)</p>
+
+<p>So in 2017, if one goes about building a personal computing environment what should it look like?</p>
+
+<p>What are my own particular needs?</p>
+<ul>
+  <li>Reliable</li>
+  <li>Expandable</li>
+  <li>Cost-efficient</li>
+</ul>
+
+<p>With these goals in mind, and after hours of research on <a href="https://www.newegg.com/">newegg</a> and <a href="https://www.cpubenchmark.net/">cpubenchmark</a> I crafted my plan.</p>
+
+<ol>
+  <li>I needed to get my hands on as many <em>cores</em> as cheaply as possible rather than chasing <em>ghz</em>.</li>
+  <li>If you scale down the <em>ghz</em> by a factor of 2x you can scale down the power by a factor of 10x which leads to…</li>
+  <li>Lower Watts which drives down running costs, and heat which leads to….</li>
+  <li>Passive cooling which reduces noise, increases reliability, and lowers maintenance hassles.</li>
+</ol>
+
+<p>At a certain point it just clicked that I was looking to build the cheapest, lowest-watt <em>set</em> of servers possible.</p>
+
+<p>My plan is to start with 3 to get the benefits of redundancy, and then add more as time goes on.</p>
+
+<p>The configuration I’ve chosen looks like:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Motherboard + CPU</td>
+      <td><a href="https://www.newegg.com/Product/Product.aspx?Item=N82E16813157714">ASRock J3160DC-ITX</a> / <a href="http://www.cpubenchmark.net/cpu.php?cpu=Intel+Celeron+J3160+%40+1.60GHz">Celeron J3160</a></td>
+      <td>$105</td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td><a href="http://amzn.to/2nTdt1C">16GB DDR3 1600</a></td>
+      <td>$90</td>
+    </tr>
+    <tr>
+      <td>OS Drive</td>
+      <td><a href="http://amzn.to/2nTe978">2.5” 16GB SSD</a></td>
+      <td>$21</td>
+    </tr>
+    <tr>
+      <td>Storage Drive</td>
+      <td><a href="http://amzn.to/2p8P7B9">3.5” 8TB (some disassembly required)</a></td>
+      <td>$208</td>
+    </tr>
+    <tr>
+      <td>Case</td>
+      <td><a href="http://amzn.to/2prU592">Mini-ITX</a></td>
+      <td>$40</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td> </td>
+      <td><strong>$464</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that the motherboard <em>also</em> includes a power-supply that comes in the form of a power-brick (further reducing costs, and noise, etc…, one can sense a trend.).</p>
+
+<p>I admit that I splurged on the size of the storage drive, and the amount of ram (old habits die hard). One could easily get away with halving one or both of those to get the cost closer to $300.</p>
+
+<p>I looked closely at both <a href="http://amzn.to/2ol9SEw">Intel’s NUC</a> and <a href="http://amzn.to/2pH6LYW">Zotac’s C-Series</a>. The deal-breaker there was mostly around the $/TB of storage since both go with a 2.5” form factor, and for the moment the 3.5” spinning platters are still king (~$100 for 2TB vs ~$200 for 8TB, a 2x difference is just hard to swallow).</p>
+
+<h2 id="what-the-final-product-looks-like">What the final product looks like:</h2>
+<p><img src="https://c1.staticflickr.com/5/4187/34636436865_f124006a9b_z.jpg" alt="It begins" /></p>
+
+<p><img src="https://c1.staticflickr.com/5/4171/34636433565_b51a7cc5a6_z.jpg" alt="Finished" /></p>
+
+<p><img src="https://c1.staticflickr.com/5/4183/34250839680_9179d3b51c_z.jpg" alt="It's Alive" /></p>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/blog/low-power-server/';
+      this.page.identifier = '/blog/low-power-server/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>

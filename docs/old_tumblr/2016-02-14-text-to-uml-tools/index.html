@@ -1,0 +1,193 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM Text to UML Tools</title>
+  <meta name="description" content="I’m sick of using a mouse to do diagrams.">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/old_tumblr/2016-02-14-text-to-uml-tools/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Text to UML Tools</h1>
+    <p class="post-meta">
+      <time datetime="2016-02-14T07:10:38-06:00" itemprop="datePublished">
+        
+        Feb 14, 2016
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>I’m sick of using a mouse to do diagrams.</p>
+
+<p>I’m a coder.  I want to write some code and have a pretty diagram pop out the other end.</p>
+
+<p>Googling around a bit, this appears to be the best list of current text to UML tools:</p>
+
+<p>http://modeling-languages.com/uml-tools/</p>
+
+<p>After looking at all of them, this is my favorite as far as ease of use and quality of the diagram produced:</p>
+
+<p>https://github.com/skanaar/nomnoml</p>
+
+<p>Written in javascript. Can just clone the repo, do npm install, open the index.html in your favorite browser and go.</p>
+
+<p>Also an online version for the lazy and to test it out:</p>
+
+<p>http://nomnoml.com/</p>
+
+<p>I love the syntax, the diagrams look good, easy to use out of box, and after looking at the code, easy to understand how it works.</p>
+
+<p>Unfortunatley, it really only does class diagrams (which can kind of forced to be block diagrams as well), and the ‘stereotypes’ that are baked in are a bit limited.</p>
+
+<p>I’ve devoted a bit of time to extending the stereotypes, and discovered I suck at html5 canvas 2d drawing. So creating stereotypes by hand isn’t going to happen, at least not easily. Plus I really, really want an interaction diagram as well.</p>
+
+<p>Next new favorite I’ve discoverd is:</p>
+
+<p>http://plantuml.com/</p>
+
+<p>An online version is here:</p>
+
+<p>http://www.planttext.com/planttext</p>
+
+<p>A complete set of diagrams.  The syntax is clean. As far as functionality goes this one has everything.</p>
+
+<p>There is only one problem: The diagrams are IMHO ugly.</p>
+
+<p>Under the hood plantuml appears to be creating dot files that it feeds into graphviz.</p>
+
+<p>Dot it turns out is kind of a neat language.</p>
+
+<p>A very neat language.</p>
+
+<p>Dot itself was probably what I was looking for when I began my adventure, but plantuml on top of dot is where I would have ended up anyway since it adds the UML specific syntax.</p>
+
+<p>I now have more or less what I wanted. I’m just a tad unhappy that the results are a bit rougher than I would like. Story of my life. :)</p>
+
+<p>Now I just need to figure out a way to make dot graphs pretty.</p>
+
+<p>Edit:</p>
+
+<p>I bit the bullet and created a ‘‘skinparam’ style file that can be included so the graphs don’t look quite so ugly.</p>
+
+<p>https://github.com/matthewjosephtaylor/plantuml-style</p>
+
+<p>(incidently, the fact that the plantuml language has local and url includes and macros is powerful…and dangerous :) )</p>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/old_tumblr/2016-02-14-text-to-uml-tools/';
+      this.page.identifier = '/old_tumblr/2016-02-14-text-to-uml-tools/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>

@@ -1,0 +1,26 @@
+theme: minima
+timezone: CST6CDT
+strict_front_matter: true
+permalink: /:path/
+disqus:
+  shortname: matthewjosephtaylor
+collections: 
+  blog:
+    output: true
+    permalink: /:collection/:path/
+  old_blogger:
+    output: true
+    permalink: /:collection/:path/
+  old_tumblr:
+    output: true
+    permalink: /:collection/:path/
+
+kramdown:
+  auto_ids:       true
+  entity_output:  as_char
+  toc_levels:     1..6
+  smart_quotes:   lsquo,rsquo,ldquo,rdquo
+  input:          GFM
+  hard_wrap:      false
+  footnote_nr:    1
+  gfm_quirks:     paragraph_end

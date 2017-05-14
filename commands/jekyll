@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker run -it --rm mjt_blog_compiler $@

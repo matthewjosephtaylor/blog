@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+declare -r SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+declare -r BLOG_SRC_DIR="$(cd ${SCRIPT_DIR}/../;pwd)/src"
+declare -r BLOG_TARGET_DIR="$(cd ${SCRIPT_DIR}/../;pwd)/docs"
+
+clean-target () {
+	mkdir -p "${BLOG_TARGET_DIR}"
+	(
+		shopt -s dotglob
+		rm -rf "${BLOG_TARGET_DIR}"/*
+	)
+}
+
+build-jekyll-image () {
+	echo "building jekyll image..."
+	(
+		cd "${SCRIPT_DIR}/../docker/jekyll"
+		docker build -t mjt_blog_compiler:latest .
+	)
+}
+
+build-blog () {
+	echo "building blog..."
+	(
+		cd "${BLOG_SRC_DIR}"
+		tar -cvf - \
+		-s /old_tumblr/_old_tumblr/ \
+		-s /blog/_blog/ \
+		-s /old_blogger/_old_blogger/ \
+		-s /presentation.includes/_includes/ \
+		-s /presentation.layouts/_layouts/ \
+		-s /presentation.style/_sass/ \
+		. | docker run -i --rm mjt_blog_compiler:latest build $@ | tar -xvf - -C "${BLOG_TARGET_DIR}"
+	)
+}
+
+
+main () {
+	clean-target
+	build-jekyll-image && \
+	build-blog $@
+}
+
+main $@

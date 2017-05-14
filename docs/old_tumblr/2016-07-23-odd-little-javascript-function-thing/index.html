@@ -1,0 +1,163 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM Odd little javascript function thing</title>
+  <meta name="description" content="I’ve been playing a lot of screeps, which means I’m getting back into doing more serious javascript.">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/old_tumblr/2016-07-23-odd-little-javascript-function-thing/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Odd little javascript function thing</h1>
+    <p class="post-meta">
+      <time datetime="2016-07-23T08:08:55-05:00" itemprop="datePublished">
+        
+        Jul 23, 2016
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>I’ve been playing a lot of screeps, which means I’m getting back into doing more serious javascript.</p>
+
+<p>It’s been a few years since I last did anything big with javascript ( example ) and it is nice to see that there have been a series of improvements made to the language.</p>
+
+<p>‘let’ is my favorite new addition so far.</p>
+
+<p>By accident I discovered that this works:</p>
+
+<p>let obj = { doAThing() { console.log(‘‘wtf?’’);}}
+obj.doAthing(); // returns ‘‘wtf?’’</p>
+
+<p>But oddly this does not work:</p>
+
+<p>doAThing() { console.log(‘‘wtf?’’); }
+// Uncaught SyntaxError: Unexpected token {</p>
+
+<p>Doing a bit of googling around I can’t seem to find where this new function definition mechanism was introduced, which I find odd because it is really nice.</p>
+
+<p>It stops me from having to write code like this:</p>
+
+<p>ojb = { doAThing: funciton doAthing() {…} }</p>
+
+<p>I like to write the above code as it both names the function and gives it an object property name.  Function names are nice because it allows one to include those function names in logs.</p>
+
+<p>I’m reticent to use this newly discovered function definition syntax as I can’t see anywhere that it is defined as legal (is it new, has it been around since forever?). I’m also bothered by the inconsistency, which makes me think that this syntax works ‘‘by some weird accident’ that I don’t fully understand (though it is too useful not to be intentional). I’ll update as I discover more about this odd/cool little ‘‘quirk’ of the language I’ve discovered, that has amused me so.</p>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/old_tumblr/2016-07-23-odd-little-javascript-function-thing/';
+      this.page.identifier = '/old_tumblr/2016-07-23-odd-little-javascript-function-thing/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>

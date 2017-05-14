@@ -1,0 +1,222 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM Docker Self Signed Registry Pain</title>
+  <meta name="description" content="I get it that docker makes money by selling its own registry services (and hey they created a cool thing and deserve some compensation), but do they have to ...">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/old_tumblr/2015-10-11-docker-self-signed-registry-pain/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Docker Self Signed Registry Pain</h1>
+    <p class="post-meta">
+      <time datetime="2015-10-11T13:20:15-05:00" itemprop="datePublished">
+        
+        Oct 11, 2015
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>I get it that docker makes money by selling its own registry services (and hey they created a cool thing and deserve some compensation), but do they have to make it so difficult to do a self signed registry?</p>
+
+<p>Problem #0</p>
+
+<p>I code on a macbook pro. So I’m having to use virtualbox as a proxy. That sucks but that’s life. The problem is that I use bonjour/zeroconf for name resolution. Guess what, the boot2docker image doesn’t have zeroconf installed. So it took me forever to figure out that while I can’t do this:</p>
+
+<p>mtaylor@metis:~$ docker push fileserver.local:5000/ubuntu
+The push refers to a repository [fileserver.local:5000/ubuntu] (len: 1)
+unable to ping registry endpoint https://fileserver.local:5000/v0/
+v2 ping attempt failed with error: Get https://fileserver.local:5000/v2/: dial tcp: lookup fileserver.local:     no such host
+v1 ping attempt failed with error: Get https://fileserver.local:5000/v1/_ping: dial tcp: lookup fileserver.local: no such host</p>
+
+<p>but I could do this:</p>
+
+<p>mtaylor@metis:~$ curl -v -k https://fileserver.local:5000/v2/</p>
+<ul>
+  <li>Trying 192.168.1.2…</li>
+  <li>Connected to fileserver.local (192.168.1.2) port 5000 (#0)</li>
+  <li>TLS 1.2 connection using TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</li>
+  <li>Server certificate: fileserver.local
+    <blockquote>
+      <p>GET /v2/ HTTP/1.1
+Host: fileserver.local:5000
+User-Agent: curl/7.43.0
+Accept: <em>/</em></p>
+
+      <p>&lt; HTTP/1.1 200 OK
+&lt; Content-Length: 2
+&lt; Content-Type: application/json; charset=utf-8
+&lt; Docker-Distribution-Api-Version: registry/2.0
+&lt; Date: Sun, 11 Oct 2015 22:07:12 GMT
+&lt;</p>
+    </blockquote>
+  </li>
+  <li>Connection #0 to host fileserver.local left intact
+{}mtaylor@metis:~$</li>
+</ul>
+
+<p>It wasn’t because I had the cert wrong and it was therefore refusing to connect to the host, it was because the daemon that lives in the boot2docker virtualbox virtual machine doesn’t have access to zeroconf name resolution.</p>
+
+<p>Problem solved by adding an A record entry in the DNS zone file of my domain (annoying but eh, it works).</p>
+
+<p>Problem #1</p>
+
+<p>The real problem came when it was time to let docker know that it needed to pay attention to the CA I used to sign the registry cert (itself), or turn off checking CAs all together.</p>
+
+<p>Nowhere in the !@#!%!#% documentation does it mention that when you’re using virtualbox to do your dockering that all the stuff it mentions in regard to editing files int /etc/default/docker or putting your ca.crt in /etc/docker/certs.d need to be done in the virtualbox virtual machine.</p>
+
+<p>In retrospect this is now obvious, now that I know the ‘docker daemon’ lives inside the virtual machine, and that’s where all the magic happens. But being a docker newbie I naively assumed that I needed to be creating/editing those files outside of the virtual machine, since there are no other configuration tasks that require editing the configuration of the software running inside of the virtual machine.</p>
+
+<p>Problem #1.5</p>
+
+<p>As I became aware that I needed to modify the configuration files inside the virtual machine it then became a task of figuring out how to get root access inside of the virtualbox virtual machine docker uses (because that isn’t documented in the main docs at all).</p>
+
+<p>The magic commands are simple in retrospect (but this needs to be in the main documentation):</p>
+
+<p>docker-machine ssh name-of-your-vm
+docker@name-of-your-vm:~$ sudo -s</p>
+
+<p>Problem #2</p>
+
+<p>It doesn’t work. It’s broken as of docker 1.8.2 :(</p>
+
+<p>I’ve put my cert in the proper directory (inside the virtual machine) and still no joy.  Turns out there is an open bug where the docker daemon simply refuses to read the ca.crt file.</p>
+
+<p>https://github.com/docker/docker/issues/9118</p>
+
+<p>However, the work around of</p>
+
+<p>DOCKER_OPTS=”–insecure-registry fileserver.local:5000”</p>
+
+<p>inside of /etc/defaults/docker does work.</p>
+
+<p>It’s obviously not a perfect solution but it at least allows me to finally:</p>
+
+<p>mtaylor@metis:~$ docker push fileserver.matthewjosephtaylor.com:5000/ubuntu
+The push refers to a repository [fileserver.matthewjosephtaylor.com:5000/ubuntu] (len: 1)
+cdd474520b8c: Image successfully pushed 
+f03f3645bde1: Image successfully pushed 
+9302827ed0a5: Image successfully pushed 
+48731f0a6276: Image successfully pushed 
+latest: digest: sha256:ce7e43866f0d66b4c9dbefca41966d60220ec4c681b2fc944dc1ca0d1d333ae1 size: 7729</p>
+
+<p>and so the story has a semi-happy ending….</p>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/old_tumblr/2015-10-11-docker-self-signed-registry-pain/';
+      this.page.identifier = '/old_tumblr/2015-10-11-docker-self-signed-registry-pain/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>

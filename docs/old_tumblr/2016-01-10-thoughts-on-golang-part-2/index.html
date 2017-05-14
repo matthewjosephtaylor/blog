@@ -1,0 +1,199 @@
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HERE I AM Thoughts on Golang (Part 2)</title>
+  <meta name="description" content="Continuing from part one">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/old_tumblr/2016-01-10-thoughts-on-golang-part-2/">
+  <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+  
+  
+</head>
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" href="/"></a>
+  
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+            <a class="page-link" href="/">Top of the world!</a>
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Thoughts on Golang (Part 2)</h1>
+    <p class="post-meta">
+      <time datetime="2016-01-10T08:59:46-06:00" itemprop="datePublished">
+        
+        Jan 10, 2016
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Continuing from part one</p>
+
+<p>interfaces: Feels a bit like duck typing. Very flexible. Allows one to create interfaces for already existing types which is neat. Puts more of the onus on the user of the interface vs the creator of the type, which feels a bit backwards. In effect the method signature becomes the interface. Loses some of the ‘contractyness’ of the concept in exchange for putting the module user more in control.
+The case statement is finally useful! By getting rid of the disastrous automatic fallthrough which is how it behaved in C (and therefore many other languages) one can actually use a case statement and have it do what you think it should do, and therefore it becomes a useful language feature vs a vile pit of bugs. Aweseome!
+type assertions: The syntax is a bit odd, but it works.  Thanks to the sane way that case statements work, and the fact that one can switch on the type assertion, doing ‘‘type switching’ becomes a very elegant way of dealing with an unknown type. A+
+go routines: Feels weird that one doesn’t get a handle to the thread. In general one shouldn’t need such a handle but they are nice to have at times. Perhaps there is a way to get the handles, or get a more detailed view of the runtime of the running threads I’ll run into later. Bye bye thread local storage.
+channels: Weird that the &lt;- does double duty for both sending and receiving.
+Panic feels very much like an exception without the ability to type the exception. Exception types often are not so helpful, so one could see it as a useful simplification. One can even simulate exception handling via use of panics and deferred resolves. I’m beginning to suspect that panic might be the cleaner way to do error handling. Just a bit odd that the ‘‘catch’ has to be at the top. Actually I think I kind of like that better anyway.
+// something like a Java try/catch in go</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">defer</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">recover</span><span class="p">();</span> <span class="n">r</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+            <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"recovered"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"step 1 will be called"</span><span class="p">)</span>
+    <span class="n">funcThatPanics</span><span class="p">(</span><span class="s">"help I need an adult!"</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"step 2 will never be called"</span><span class="p">)</span>
+<span class="p">}()</span></code></pre></figure>
+
+<p>Can use range on channels. Nice.
+Use of &lt;-x vs x&lt;- to determine reader/writer is cute. Still think &lt;- should be split into two operators. Would make this less cute, but more expressive.
+The len() function feels very lispy to me for some reason. I guess because it is the primitive operation for determining the length of ‘‘something’.
+New phrase: ‘‘goroutine leak’. When a goroutine is blocked waiting on a channel that will never be be sent to, and therefore will not garbage collected.
+select as a kind of switch statement is a surprisingly clean syntax. It too uses randomness to insure that one channel doesn’t hog all the attention. I’m beginning to see a pattern of intentional randomness to help a program behave in a ‘‘statistically consistent’ manor, and I approve. I haven’t seen this in a language before, or at least not to this degree. Sometimes bugs hide in the crevices of how a program folds together in its runtime behavior.  Randomness smooths and evens out this runtime behavior. This is a language feature that future languages should take note of.
+time.Tick: Very useful function. Probably too useful. I can imagine this could be abused very easily.
+labels / break to label: Dirty. Dirty. Dirty. Filthy.<br />
+Concurrency: channels appear to have some strong consistency guarantees. However, anything outside of that is wild-west territory where the language user is given an arsenal of primitives and told not to shoot themselves in the foot. Disappointing. It probably would have been a better world if goroutines were segregated from each other except via channels (perhaps something like a copy on write fork, with channels being the sole ‘‘shared resource’). Having access to unsynchronized shared memory and telling the language user to ‘‘use responsibly’ means that go routines are much less powerful in practice than they could have been.
+Example of the ugliness that arrises from weak concurrency design.
+Lol. There is a -race flag to the compiler to instrument the runtime with checks for race conditions. I guess if the language makes it easy to have race conditions, then it is nice that it has a built in facility to try to detect them.
+Use of blank imports for drivers: eh, feels kinda lame, but nicer than having an un ‘‘unused’ import.
+Wow. Go get actually speaks scm languages like git, and does things like clone when downloading. Way cool.
+‘‘Vendor’ directories: Hmmmmm…..My guess is that my opinion is going to change as I play more with the language. Initially, this seems like a very primitive way of handling dependency issues. Since there are no compiled artifacts (like jars) the source becomes how one integrates a 3rd party library. Nice in the sense that it demands one has access to the source code (which is a cannot be overstated wonderful feature), but bad in that it can get a bit unwieldy. Can’t imagine right now how multiple devs would coordinate, this might get ugly…
+Built in testing framework: Cool that it has one, but it is a bit on the simple side. No doubt there are many frameworks that are better, but the built in one will most likely be a good enough place to start most of the time.
+Example test functions: I like. I (and I’m sure most other devlopers) routinely create ‘‘sandbox’ or ‘‘playground’ code that is used to either explain or ‘‘play with’ parts of a code base. I like that this has been formalized.
+Reflection: Odd that they try to hide it like a dirty little secret. Obvious that the language designers feel this is dangerous territory.
+Interesting that The Go Programming Language authors use converting Go data structures into Lisp S-Expressions as an example when discussing reflection, with no real description of what Lisp or S-Expressions are, just assuming that the reader is familiar. My suspicion is that this was at least semi-purposeful, to try to subtly make reflection seem a bit scarier than it is. A sort of gatekeeper. If you know Lisp we deem you worthy to use reflection. A bit elite-ish. It just so happens that I do know me some Lisp and am familiar with S-Expressions. So I guess I pass the test, but it is IMHO a childish game they are playing, and while I’m sure they felt they were either being clever or acting as responsible guardians, really they are just being dicks. What they should have done was use JSON since this is the modern equivalent of S-Expressions that many, many, many more people are familiar with.
+Struct field tags: non-type-safe annotations. Looks like the only real way to use these is to parse them via convention. Too bad that they have to be read via reflection. Feels a bit tacked on at the last minute-ish. Useful but painful and error-prone.
+Lots of ‘‘we don’t have the space to show here’ in the book. A bit too much.
+Unsafe: This is useful or not depending on the goal of the language. From an application development perspective: evil. From a systems programming language perspective: necessary. This is the dividing line. Since it can do unsafe stuff, Go is a systems programming language. But the goal seems to be to corral all the dangerous stuff into the unsafe package, to make it a useful application programming language as well. So how strong is that fence between the two?
+Cgo: Whatever programming languages exist in a thousand years will have C bindings. Lots of details missing in the book, but the ‘‘flavor’ of how it is done seems reasonable enough. I like accessing the c types via the ‘‘C’ package, nicely done.
+I find it telling that the final section of the book is a warning not to use reflection or unsafe. 
+Summary of thoughts to this point:</p>
+
+<p>Pragmatic. I don’t think anyone is going to call this language ‘‘elegant’, but there is heavy emphasis on simplicity, combined with the clear intent to try to give the language user the tools needed to get the job done. It feels very much like a refined C for the modern era, with lots of extra safety and ease of use features, like garbage collection, and pointers sans pointer arithmetic.</p>
+
+<p>Things I like:</p>
+
+<p>General simplicity of the language combined with a slick tool chain make it very fast to get off the ground and running.
+Null/nil as a valid ‘‘zero value’ is a really nice idea that I hope more languages adopt in the future.
+tuples for return values!
+Finally, an example of a useable switch statement (other language designers THIS is how it should work).
+Things I don’t like:</p>
+
+<p>int/uint based on machine word size. This deserves a loud and forceful BOO! Might be bad enough to wreck the whole language for some.
+Lack of error handling facilities.
+Weak mechanisms for dealing with concurrency. Channels are an excellent start, but the road ends there, with too much work left to the language user.
+Things that are AWESOME:</p>
+
+<p>The built in opinionated source code formatting. 
+Now armed with a sufficient amount of knowledge to be dangerous, I shall go forth and see what kind of Go-shaped nails need hammering. :)</p>
+
+  </div>
+
+  
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = '/old_tumblr/2016-01-10-thoughts-on-golang-part-2/';
+      this.page.identifier = '/old_tumblr/2016-01-10-thoughts-on-golang-part-2/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://matthewjosephtaylor.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+  
+</article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              
+            
+            </li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+  </body>
+
+</html>
